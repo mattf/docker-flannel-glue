@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if ! [ "$FLANNEL_SUBNET" ] && [ "$FLANNEL_MTU" ] ; then
+    echo "ERROR: missing required environment variables." >&2
+    exit 1
+fi
+      
+mkdir -p /run/flannel/
+cat > /run/flannel/docker <<EOF
+DOCKER_NETWORK_OPTIONS="--bip=$FLANNEL_SUBNET --mtu=$FLANNEL_MTU"
+EOF
